@@ -1,0 +1,11 @@
+BT MAC Address: F0:E4:9C:2D:95:AB
+
+Service: 00001801-0000-1000-8000-00805f9b34fb (Handle: 10): Generic Attribute Profile
+
+Service: 0000ffe5-0000-1000-8000-00805f9a34fb (Handle: 11): Unknown
+        CHARACTERISTIC_READ : 0000ffe4-0000-1000-8000-00805f9a34fb (Handle: 14): Unknown
+                Property: notify
+       CHARACTERISTIC_WRITE : 0000ffe9-0000-1000-8000-00805f9a34fb (Handle: 12): Unknown
+                Property: write-without-response
+                Property: write
+
