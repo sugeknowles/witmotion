@@ -3,6 +3,7 @@ import BLESearcher
 from bleak import BleakClient
 import binascii
 from BLEData import BLEData
+import sys
 
 
 
@@ -20,7 +21,10 @@ class WITBLE():
     RATE_5HZ = 0x05
     RATE_10HZ = 0x06
     RATE_20HZ = 0x07
-    RATE_50HZ = 0x08 # Returns a 40 byte response rather than the regular 20 bytes.
+    RATE_50HZ = 0x08
+    RATE_100HZ = 0x09
+    RATE_200HZ = 0x0B
+
 
     mac_address = None
     client = None
@@ -30,21 +34,23 @@ class WITBLE():
     def __init__(self, mac_address):
         self.mac_address = mac_address
 
+    def chunker(self, seq, size):
+        return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
     def process_data(self, data):
-        bledata = BLEData(data)
-        self.data.append(bledata.data)
-
+        for packet in self.chunker(data, 20):
+            witble_data = BLEData(packet)
+            self.data.append(witble_data.data)
 
     def notification_handler(self, sender, data):        
-        if len(data) == 40:
-            packet_a = data[:len(data)//2]
-            packet_b = data[len(data)//2:]
-            self.process_data(packet_a)
-            self.process_data(packet_b)
-        else:
-            self.process_data(data)
-
+        # if len(data) > 20:
+        #     packet_a = data[:len(data)//2]
+        #     packet_b = data[len(data)//2:]
+        #     self.process_data(packet_a)
+        #     self.process_data(packet_b)
+        # else:
+        #     self.process_data(data)
+        self.process_data(data)
 
     async def connect(self, rate):
         if self.mac_address:
@@ -54,6 +60,15 @@ class WITBLE():
                 self.client = client
         else:
             print("Can't connect. MAC not set.")
+
+    
+    async def calibrate(self):
+        # FF AA 01 01 00
+        if self.client:
+            async with self.client:
+                rate_message = bytearray([0xff, 0xaa, 0x01, 0x01, 0x00]);
+                await self.client.write_gatt_char(self.CHARACTERISTIC_WRITE, rate_message)                
+
 
 
     async def disconnect(self):

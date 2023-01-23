@@ -9,3 +9,28 @@ Service: 0000ffe5-0000-1000-8000-00805f9a34fb (Handle: 11): Unknown
                 Property: write-without-response
                 Property: write
 
+
+Sensor Notification Data (20 byte message):
+---------------------------------------------------------
+Data format:  '5561faff110022080000000000006f002600f046'
+
+0x55 Packet header
+0x61 Flag bit
+axL X Acceleration low 8 byte
+axH X Acceleration high 8 byte
+ayL Y Acceleration low 8 byte
+ayH Y Acceleration high 8 byte
+azL Z Acceleration low 8 byte
+azH Z Acceleration high 8 byte
+wxL X Angular velocity low 8 byte
+wxH X Angular velocity high 8 byte
+wyL Y Angular velocity low 8 byte
+wyH Y Angular velocity high 8 byte
+wzL Z Angular velocity low 8 byte
+wzH Z Angular velocity high 8 byte
+RollL X Angle low 8 byte
+RollH X Angle high 8 byte
+PitchL Y Angle low 8 byte
+PitchH Y Angle high 8 byte
+YawL Z Angle low 8 byte
+YawH Z Angle high 8 byte

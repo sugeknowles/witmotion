@@ -35,7 +35,7 @@ class BLESearcher:
         await self._scanner.stop()
 
 def search(search_name, timeout):
-    ble_searcher = BLESearcher(5)
+    ble_searcher = BLESearcher(timeout)
     print(f"Starting scan. {ble_searcher.timeout_seconds} second timeout.")
     loop = asyncio.get_event_loop()
     loop.run_until_complete(ble_searcher.run_search(search_name, loop))
