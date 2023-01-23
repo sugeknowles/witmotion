@@ -1,6 +1,9 @@
+import time
+
+
 class BLEData:
 
-    GRAVITY = 9.8
+    data = None
 
     def __init__(self, data):
 
@@ -36,6 +39,11 @@ class BLEData:
         self.angleY = ((self.wyH << 8) + self.wyL) / 32768 * 2000
         self.angleZ = ((self.wzH << 8) + self.wzL) / 32768 * 2000
 
+        self.roll = ((self.rollH << 8) + self.rollL) / 32768 * 180
+        self.pitch = ((self.pitchH << 8) + self.pitchL) / 32768 * 180
+        self.yaw = ((self.yawH << 8) + self.yawL) / 32768 * 180
+
+        self.data = [self.accelX, self.accelY, self.accelZ, self.angleX, self.angleY, self.angleZ, self.roll, self.pitch, self.yaw]
 
     def __str__(self):
-        return f"AccelX: {self.accelX} AccelY: {self.accelY} AccelZ: {self.accelZ} \nAngleX: {self.angleX} AngleY: {self.angleY} AngleZ: {self.angleZ}"
+        return f"AccelX: {self.accelX} AccelY: {self.accelY} AccelZ: {self.accelZ} \nAngleX: {self.angleX} AngleY: {self.angleY} AngleZ: {self.angleZ} \nRoll: {self.roll} Pitch: {self.pitch} Yaw: {self.yaw}"
