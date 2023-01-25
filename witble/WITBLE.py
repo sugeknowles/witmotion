@@ -1,10 +1,7 @@
 import asyncio
-import BLESearcher
 from bleak import BleakClient
 import binascii
-from BLEData import BLEData
-import sys
-
+from witble.BLEData import BLEData
 
 
 class WITBLE():
@@ -26,6 +23,7 @@ class WITBLE():
     RATE_200HZ = 0x0B
 
 
+    stream = False
     mac_address = None
     client = None
     data = []
@@ -38,20 +36,17 @@ class WITBLE():
         return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
     def process_data(self, data):
+        # print(f"Data: {binascii.hexlify(data)}")
         for packet in self.chunker(data, 20):
             witble_data = BLEData(packet)
             self.data.append(witble_data.data)
+            if self.stream:
+                print(witble_data)
+
 
     def notification_handler(self, sender, data):        
-        # if len(data) > 20:
-        #     packet_a = data[:len(data)//2]
-        #     packet_b = data[len(data)//2:]
-        #     self.process_data(packet_a)
-        #     self.process_data(packet_b)
-        # else:
-        #     self.process_data(data)
         self.process_data(data)
-
+        
     async def connect(self, rate):
         if self.mac_address:
             async with BleakClient(self.mac_address) as client:                
@@ -63,7 +58,7 @@ class WITBLE():
 
     
     async def calibrate(self):
-        # FF AA 01 01 00
+        # FF AA 01 01 00  -  Acceleration Calibration Command
         if self.client:
             async with self.client:
                 rate_message = bytearray([0xff, 0xaa, 0x01, 0x01, 0x00]);
@@ -78,7 +73,8 @@ class WITBLE():
             print("Can't disconnect.  Not connected.")
 
 
-    async def subscribe(self, subscription_time):
+    async def subscribe(self, subscription_time, stream):
+        self.stream = stream
         if self.client:
             async with self.client:
                 await self.client.start_notify(self.CHARACTERISTIC_READ, self.notification_handler)
