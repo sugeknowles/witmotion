@@ -36,3 +36,6 @@ pip-selfcheck.json
 
 __pycache__
 docs
+witble.egg-info/
+witble/witble.egg-info/
+
