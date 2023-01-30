@@ -1,7 +1,7 @@
 import asyncio
 from bleak import BleakClient
-import binascii
 from witble.BLEData import BLEData
+import zmq
 
 
 class WITBLE():
@@ -27,6 +27,9 @@ class WITBLE():
     mac_address = None
     client = None
     data = []
+    server = "localhost"
+    port = "8000"
+    mqsocket = None
 
 
     def __init__(self, mac_address):
@@ -46,7 +49,13 @@ class WITBLE():
 
     def notification_handler(self, sender, data):        
         self.process_data(data)
-        
+
+
+    def mq_handler(self, sender, data):   
+        witble_data = BLEData(data)
+        self.mqsocket.send_pyobj(witble_data.data)
+
+
     async def connect(self, rate):
         if self.mac_address:
             async with BleakClient(self.mac_address) as client:                
