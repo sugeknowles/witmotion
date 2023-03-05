@@ -18,6 +18,9 @@ You can select data rates based on your use case.  When connecting to the sensor
 ```
 
 # Valid Sample Rates
+
+These constants select the appropriate message byte to send to the sensor to set its sampling interval
+
 - RATE_POINT2HZ = 0x01
 - RATE_POINT5HZ = 0x02
 - RATE_1HZ = 0x03
