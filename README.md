@@ -18,16 +18,16 @@ You can select data rates based on your use case.  When connecting to the sensor
 ```
 
 # Valid Sample Rates
-RATE_POINT2HZ = 0x01
-RATE_POINT5HZ = 0x02
-RATE_1HZ = 0x03
-RATE_2HZ = 0x04
-RATE_5HZ = 0x05
-RATE_10HZ = 0x06
-RATE_20HZ = 0x07
-RATE_50HZ = 0x08
-RATE_100HZ = 0x09
-RATE_200HZ = 0x0B
+- RATE_POINT2HZ = 0x01
+- RATE_POINT5HZ = 0x02
+- RATE_1HZ = 0x03
+- RATE_2HZ = 0x04
+- RATE_5HZ = 0x05
+- RATE_10HZ = 0x06
+- RATE_20HZ = 0x07
+- RATE_50HZ = 0x08
+- RATE_100HZ = 0x09
+- RATE_200HZ = 0x0B
 
 # Example useage
 
